@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1037178112267",
+    "firebase_url": "https://neatshoe-3d605.firebaseio.com",
+    "project_id": "neatshoe-3d605",
+    "storage_bucket": "neatshoe-3d605.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037178112267:android:05b4174c89cdab46147a0e",
+        "android_client_info": {
+          "package_name": "come.example.neatshoe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037178112267-svkmlc7kmseoph9hrbfmrfl1dulltns1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "come.example.neatshoe",
+            "certificate_hash": "ad2b0bc8326d476e630efc8a39d3881da6b1f669"
+          }
+        },
+        {
+          "client_id": "1037178112267-fmgvket2cono8n12ss49r94lqssq6dh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIlFEZs2-j8O3iQgSRejprwVy8_CTUpuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037178112267-fmgvket2cono8n12ss49r94lqssq6dh2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
