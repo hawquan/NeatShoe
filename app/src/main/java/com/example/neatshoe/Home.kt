@@ -41,6 +41,12 @@ class Home : Fragment() {
         binding.btProfile.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_profile)
         }
+        binding.btnLogin.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_home_to_login2)
+        }
+        binding.btnRegister.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_home_to_register)
+        }
         return binding.root
     }
 

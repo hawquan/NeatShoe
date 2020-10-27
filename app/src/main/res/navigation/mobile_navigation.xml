@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/home">
+    app:startDestination="@id/home">
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.neatshoe.MainActivity"
@@ -17,6 +17,12 @@
         <action
             android:id="@+id/action_home_to_profile"
             app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_home_to_login2"
+            app:destination="@id/login2" />
+        <action
+            android:id="@+id/action_home_to_register"
+            app:destination="@id/register" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -25,6 +31,28 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profile_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/login2"
+        android:name="com.example.neatshoe.Login"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login2_to_register"
+            app:destination="@id/register" />
+        <action
+            android:id="@+id/action_login2_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/register"
+        android:name="com.example.neatshoe.Register"
+        android:label="Register" >
+        <action
+            android:id="@+id/action_register_to_login2"
+            app:destination="@id/login2" />
+        <action
+            android:id="@+id/action_register_to_home"
             app:destination="@id/home" />
     </fragment>
 </navigation>
