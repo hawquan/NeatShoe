@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037178112267:android:05b4174c89cdab46147a0e",
+        "mobilesdk_app_id": "1:1037178112267:android:8ec19266fb2e8704147a0e",
         "android_client_info": {
-          "package_name": "come.example.neatshoe"
+          "package_name": "com.example.neatshoe"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1037178112267-svkmlc7kmseoph9hrbfmrfl1dulltns1.apps.googleusercontent.com",
+          "client_id": "1037178112267-0kjkr95a6tmcbr85c1en60i6tpuhemq9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "come.example.neatshoe",
+            "package_name": "com.example.neatshoe",
             "certificate_hash": "ad2b0bc8326d476e630efc8a39d3881da6b1f669"
           }
         },

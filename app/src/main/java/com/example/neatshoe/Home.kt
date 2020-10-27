@@ -18,6 +18,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+
 private const val TAG : String = "Home"
 
 
@@ -49,6 +51,9 @@ class Home : Fragment() {
         }
         return binding.root
     }
+
+
+
 
 
 }
