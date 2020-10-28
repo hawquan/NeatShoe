@@ -10,17 +10,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import com.example.neatshoe.databinding.FragmentHomeBinding
 import com.example.neatshoe.databinding.FragmentRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_register.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,7 +44,7 @@ class Register : Fragment() {
         editName = requireActivity().findViewById(R.id.txtName)
         editEmail = requireActivity().findViewById(R.id.txtEmail)
         editPassword = requireActivity().findViewById(R.id.txtPassword)
-        btnRegister = requireActivity().findViewById(R.id.btReg)
+        btnRegister = requireActivity().findViewById(R.id.btLogin)
 
 
 

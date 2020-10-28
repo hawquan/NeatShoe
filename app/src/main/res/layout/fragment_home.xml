@@ -32,7 +32,7 @@
         tools:layout_editor_absoluteY="258dp" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
