@@ -23,7 +23,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="40dp"
-            android:src="@drawable/sample" />
+            />
 
         <TextView
             android:id="@+id/Name"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            android:text="@string/full_name" />
+            />
 
     </LinearLayout>
 
@@ -95,7 +95,7 @@
                     style="@style/TextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/full_name" />
+                    />
 
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                     style="@style/TextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone" />
+                     />
 
             </LinearLayout>
 
@@ -165,7 +165,7 @@
                     style="@style/TextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/email" />
+                    />
 
             </LinearLayout>
 
@@ -200,7 +200,7 @@
                     style="@style/TextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/address" />
+                    />
 
             </LinearLayout>
 
@@ -235,7 +235,7 @@
                     style="@style/TextDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/points" />
+                    />
 
             </LinearLayout>
 

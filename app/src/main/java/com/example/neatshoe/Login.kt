@@ -57,7 +57,7 @@ class Login : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentLoginBinding>(inflater,
             R.layout.fragment_login,container,false)
         binding.btnRegLogin1.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_login2_to_register)
+            view.findNavController().navigate(R.id.action_login_to_register)
         }
         return binding.root
 
@@ -76,7 +76,7 @@ class Login : Fragment() {
 
 
                             Toast.makeText(activity, "Login Successfully", Toast.LENGTH_SHORT).show()
-                            view!!.findNavController().navigate(R.id.action_login2_to_home)
+                            view!!.findNavController().navigate(R.id.action_login_to_home)
                         } else {
                             Toast.makeText(activity, "Invalid Username or password", Toast.LENGTH_SHORT)
                                     .show()

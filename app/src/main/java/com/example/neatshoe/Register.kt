@@ -30,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class Register : Fragment() {
     // TODO: Rename and change types of parameters
-    class User(val name:String, val email: String, val password:String, val telnumber:String)
+    class User(val name: String, val email: String, val address: String, val phone: String, val point: Int, val image: String)
 
     lateinit var editName: EditText
     lateinit var editEmail: EditText
@@ -64,7 +64,7 @@ class Register : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater,
             R.layout.fragment_register,container,false)
         binding.btnLogRegister1.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_register_to_login2)
+            view.findNavController().navigate(R.id.action_register_to_login)
         }
 
         return binding.root
@@ -76,7 +76,7 @@ class Register : Fragment() {
         super.onStart()
 
         if(mAuth.currentUser != null){
-            //handle the already login user
+            //handle the already login user7
 
         }
     }
@@ -84,7 +84,9 @@ class Register : Fragment() {
         val name = editName.text.toString().trim()
         val email =editEmail.text.toString().trim()
         val password = editPassword.text.toString().trim()
-        val telnumber = "NO"
+        val phone = ""
+        val point = "0"
+        val image = ""
 
         if(name.isEmpty() && email.isEmpty() && password.isEmpty() ) {
             editName.error = "Please enter a name"
@@ -112,7 +114,7 @@ class Register : Fragment() {
                     if(task.isSuccessful) {
                         //store additional fields in firebase database
 
-                        var user : User = User(name,email,password,telnumber)
+                        var user : User = User(name,email,password,phone,point.toInt(),image)
                         FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().currentUser!!.uid)
                             .setValue(user).addOnCompleteListener(object: OnCompleteListener<Void> {
@@ -120,7 +122,7 @@ class Register : Fragment() {
                                     if(task.isSuccessful){
                                         Toast.makeText(activity,"Register Successfully", Toast.LENGTH_LONG).show()
 
-                                        view!!.findNavController().navigate(R.id.action_register_to_login2)
+                                        view!!.findNavController().navigate(R.id.action_register_to_login)
                                     }
                                     else{
                                         //display a failure message

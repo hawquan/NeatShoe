@@ -32,6 +32,14 @@
         tools:layout_editor_absoluteY="258dp" />
 
     <Button
+        android:id="@+id/btLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="258dp" />
+
+    <Button
         android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
