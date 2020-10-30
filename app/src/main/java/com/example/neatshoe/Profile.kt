@@ -40,8 +40,6 @@ import kotlin.collections.HashMap
  */
 class Profile : Fragment() {
 
-    class User(val name: String, val email: String, val password: String, val address: String, val phone: String, val point: Int, val image: String)
-
     val IMAGE_CODE = 1
 
     lateinit var databaseReference: DatabaseReference
@@ -169,16 +167,19 @@ class Profile : Fragment() {
     private fun save() {
 
         val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+        databaseReference = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+
 
         val name = profileName.text.toString().trim()
         val email = profileEmail.text.toString().trim()
         val address = profileAddress.text.toString().trim()
         val phone = profilePhone.text.toString().trim()
-        val point = profilePoint.text.toString().trim()
 
-        val user = User(name, email, password, address, phone, point.toInt(), image)
-        ref.setValue(user)
+        databaseReference.child("name").setValue(name)
+        databaseReference.child("email").setValue(email)
+        databaseReference.child("address").setValue(address)
+        databaseReference.child("phone").setValue(phone)
+
 
         Toast.makeText(activity, "Update Successfully", Toast.LENGTH_SHORT).show()
         profileImage.isEnabled = false
