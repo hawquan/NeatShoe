@@ -30,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class Register : Fragment() {
     // TODO: Rename and change types of parameters
-    class User(val name: String, val email: String, val address: String, val phone: String, val point: Int, val image: String)
+    class User(val name: String, val email: String, val password: String, val address: String, val phone: String, val point: Int, val image: String)
 
     lateinit var editName: EditText
     lateinit var editEmail: EditText
@@ -84,6 +84,7 @@ class Register : Fragment() {
         val name = editName.text.toString().trim()
         val email =editEmail.text.toString().trim()
         val password = editPassword.text.toString().trim()
+        val address = ""
         val phone = ""
         val point = "0"
         val image = ""
@@ -114,7 +115,7 @@ class Register : Fragment() {
                     if(task.isSuccessful) {
                         //store additional fields in firebase database
 
-                        var user : User = User(name,email,password,phone,point.toInt(),image)
+                        var user : User = User(name,email,password,address,phone,point.toInt(),image)
                         FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().currentUser!!.uid)
                             .setValue(user).addOnCompleteListener(object: OnCompleteListener<Void> {

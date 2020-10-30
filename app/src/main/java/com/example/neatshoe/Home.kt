@@ -42,7 +42,7 @@ class Home : Fragment() {
         if (user != null) {
 
         } else {
-            requireView().findNavController().navigate(R.id.action_home_to_logout)
+      //      requireView().findNavController().navigate(R.id.action_home_to_logout)
         }
     }
 

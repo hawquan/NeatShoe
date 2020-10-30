@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.IOException
 import java.util.*
+import kotlin.collections.HashMap
 
 
 /**
@@ -39,8 +40,7 @@ import java.util.*
  */
 class Profile : Fragment() {
 
-    class User(val name: String, val email: String, val address: String, val phone: String, val point: Int, val image: String)
-
+    class User(val name: String, val email: String, val password: String, val address: String, val phone: String, val point: Int, val image: String)
 
     val IMAGE_CODE = 1
 
@@ -51,7 +51,9 @@ class Profile : Fragment() {
     lateinit var uid: String
     lateinit var profileImage: CircleImageView
     lateinit var imageUri: Uri
-
+    lateinit var test: String
+    lateinit var image: String
+    lateinit var password: String
     lateinit var nameBox: LinearLayout
     lateinit var profileName: EditText
     lateinit var profileEmail: EditText
@@ -104,19 +106,19 @@ class Profile : Fragment() {
                 var user_email: String = dataSnapshot.child("email").value.toString()
                 var user_image: String = dataSnapshot.child("image").value.toString()
                 var user_phone: String = dataSnapshot.child("phone").value.toString()
+                var user_pass: String = dataSnapshot.child("password").value.toString()
                 var user_point: String = dataSnapshot.child("point").value.toString()
                 var user_address: String = dataSnapshot.child("address").value.toString()
 
+                image = user_image
                 profileName.setText(user_name)
                 profileEmail.setText(user_email)
                 profileAddress.setText(user_address)
                 profilePoint.setText(user_point)
                 profilePhone.setText(user_phone)
-                try{
-                    //if image is received then set it
+                password = user_pass
+                if(user_image != ""){
                     Picasso.get().load(user_image).into(profileImage)
-                } catch (e: IOException) {
-                    e.printStackTrace()
                 }
                 Name.text = user_name
 
@@ -157,17 +159,27 @@ class Profile : Fragment() {
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
                 profileImage.setImageBitmap(bitmap)
+                storeData()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
-
         }
     }
 
     private fun save() {
 
-        storeData()
+        val uid = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+
+        val name = profileName.text.toString().trim()
+        val email = profileEmail.text.toString().trim()
+        val address = profileAddress.text.toString().trim()
+        val phone = profilePhone.text.toString().trim()
+        val point = profilePoint.text.toString().trim()
+
+        val user = User(name, email, password, address, phone, point.toInt(), image)
+        ref.setValue(user)
+
         Toast.makeText(activity, "Update Successfully", Toast.LENGTH_SHORT).show()
         profileImage.isEnabled = false
         profileEmail.isEnabled = false
@@ -182,8 +194,9 @@ class Profile : Fragment() {
 
     private fun storeData() {
 
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        user = FirebaseAuth.getInstance().currentUser!!
+        uid = user.uid
+        val ref = FirebaseStorage.getInstance().getReference("/images/").child(uid + ".jpeg")
 
         ref.putFile(imageUri).addOnSuccessListener {
             ref.downloadUrl.addOnSuccessListener {
@@ -194,17 +207,9 @@ class Profile : Fragment() {
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+        databaseReference = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+        databaseReference.child("image").setValue(profileImageUrl)
 
-        val name = profileName.text.toString().trim()
-        val email = profileEmail.text.toString().trim()
-        val address = profileAddress.text.toString().trim()
-        val phone = profilePhone.text.toString().trim()
-        val point = profilePoint.text.toString().trim()
-
-        val user = User(name, email, address, phone, point.toInt(), profileImageUrl)
-
-        ref.setValue(user)
     }
 }
 
