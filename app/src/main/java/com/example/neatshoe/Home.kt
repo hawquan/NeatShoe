@@ -42,7 +42,7 @@ class Home : Fragment() {
         if (user != null) {
 
         } else {
-      //      requireView().findNavController().navigate(R.id.action_home_to_logout)
+            requireView().findNavController().navigate(R.id.action_home_to_logout)
         }
     }
 
@@ -65,6 +65,9 @@ class Home : Fragment() {
         }
         binding.btLogout.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_logout)
+        }
+        binding.btLocation.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_home_to_location)
         }
 
         return binding.root
