@@ -73,8 +73,8 @@
     <fragment
         android:id="@+id/location"
         android:name="com.example.neatshoe.Location"
-        android:label="fragment_location"
-        tools:layout="@layout/fragment_location" >
+        android:label="Location"
+        tools:layout="@layout/fragment_location">
         <action
             android:id="@+id/action_location_to_home"
             app:destination="@id/home" />
