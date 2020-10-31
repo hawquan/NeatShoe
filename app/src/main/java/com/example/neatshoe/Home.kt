@@ -66,8 +66,9 @@ class Home : Fragment() {
         binding.btLogout.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_logout)
         }
-        binding.btLocation.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_home_to_location)
+
+        binding.btLocation2.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_home_to_map)
         }
 
         return binding.root

@@ -56,11 +56,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="AddressFromMap"/>
+
     <Button
-        android:id="@+id/btLocation"
+        android:id="@+id/btLocation2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location" />
+        android:text="Location2" />
 
 
 </LinearLayout>

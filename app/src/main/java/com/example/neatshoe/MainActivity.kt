@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
-        if (ContextCompat.checkSelfPermission(this@MainActivity,
+   /*     if (ContextCompat.checkSelfPermission(this@MainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION) !==
             PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this@MainActivity,
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1)
             }
         }
-
+*/
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+   /* override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
             1 -> {
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
