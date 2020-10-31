@@ -1,185 +1,142 @@
-//package com.example.neatshoe
+//package com.example.mylocationtrackoverfbdb
 //
-//import android.app.Activity
-//import android.content.Intent
-//import android.net.Uri
+//import android.Manifest
+//import android.content.pm.PackageManager
+//import android.location.Location
+//import android.location.LocationListener
+//import android.location.LocationManager
 //import android.os.Bundle
-//import android.provider.MediaStore
-//import android.view.LayoutInflater
 //import android.view.View
-//import android.view.ViewGroup
-//import android.widget.Button
 //import android.widget.EditText
-//import android.widget.TextView
-//import android.widget.Toast
-//import androidx.appcompat.app.AlertDialog
-//import androidx.fragment.app.Fragment
-//import com.example.chcook.R
-//import com.google.firebase.auth.FirebaseAuth
-//import com.google.firebase.auth.UserProfileChangeRequest
-//import com.google.firebase.database.DatabaseReference
-//import com.google.firebase.database.FirebaseDatabase
-//import com.google.firebase.storage.FirebaseStorage
-//import de.hdodenhof.circleimageview.CircleImageView
-//import java.io.IOException
+//import androidx.core.app.ActivityCompat
+//import androidx.fragment.app.FragmentActivity
+//import com.google.android.gms.maps.CameraUpdateFactory
+//import com.google.android.gms.maps.GoogleMap
+//import com.google.android.gms.maps.OnMapReadyCallback
+//import com.google.android.gms.maps.SupportMapFragment
+//import com.google.android.gms.maps.model.LatLng
+//import com.google.android.gms.maps.model.MarkerOptions
+//import com.google.firebase.database.*
 //import java.util.*
 //
-//class Fragment_addStaff : Fragment(), View.OnClickListener {
-//    var imageUri: Uri? = null
-//    var fAuth: FirebaseAuth? = null
-//    var fBase: FirebaseDatabase? = null
-//    var reference: DatabaseReference? = null
-//    private var profilePicStaff: CircleImageView? = null
-//    private var register: Button? = null
-//    private var clean: Button? = null
-//    private var Email: EditText? = null
-//    private var Name: EditText? = null
-//    private var Pass: EditText? = null
-//    private var CPass: EditText? = null
-//    private var path: TextView? = null
-//    private var ff: String? = null
-//    private val lastURL: String? = null
-//    private var valid = true
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val view: View = inflater.inflate(R.layout.fragment_addstaff, container, false)
-//        profilePicStaff = view.findViewById<View>(R.id.profilePic_staff) as CircleImageView
-//        register = view.findViewById(R.id.btnRegister)
-//        clean = view.findViewById(R.id.btnClear)
-//        Email = view.findViewById(R.id.txtEmail)
-//        Name = view.findViewById(R.id.txtName)
-//        Pass = view.findViewById(R.id.txtPass)
-//        path = view.findViewById(R.id.txtPath)
-//        CPass = view.findViewById(R.id.txtCfmPass)
-//        fBase = FirebaseDatabase.getInstance()
-//        fAuth = FirebaseAuth.getInstance()
-//        profilePicStaff!!.setOnClickListener(this)
-//        register.setOnClickListener(this)
-//        clean.setOnClickListener(this)
-//        return view
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-//            imageUri = data!!.data
-//            try {
-//                val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
-//                profilePicStaff!!.setImageBitmap(bitmap)
-//                //                Toast.makeText(getActivity(), imageUri.getLastPathSegment(), Toast.LENGTH_SHORT).show();
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    override fun onClick(v: View) {
-//        when (v.id) {
-//            R.id.profilePic_staff -> {
-//                val gall = Intent()
-//                gall.type = "image/*"
-//                gall.action = Intent.ACTION_GET_CONTENT
-//                startActivityForResult(Intent.createChooser(gall, "Select Profile Pic"), PICK_IMAGE)
-//            }
-//            R.id.btnRegister -> {
-//                val builderR = AlertDialog.Builder(activity!!)
-//                builderR.setTitle("Confirm Registration")
-//                builderR.setMessage("Are you sure want to confirm?")
-//                builderR.setPositiveButton("Yes") { dialog, which ->
-//                    check(Email)
-//                    check(Name)
-//                    check(Pass)
-//                    check(CPass)
-//                    val password = Pass!!.text.toString()
-//                    if (valid) {
-//                        if (password != CPass!!.text.toString()) {
-//                            Pass!!.error = "Password not match!"
-//                        } else {
-//                            val sName = Name!!.text.toString()
-//                            val sEmail = Email!!.text.toString()
-//                            val sPass = Pass!!.text.toString()
-//                            val sStatus = "Working"
-//                            val IsAdmin = false
-//                            fAuth!!.createUserWithEmailAndPassword(sEmail, sPass).addOnSuccessListener { authResult ->
-//                                val id = authResult.user!!.uid
-//                                //                                        Toast.makeText(getActivity(), "new staff account created", Toast.LENGTH_SHORT).show();
-//                                val user = fAuth!!.currentUser
-//                                reference = fBase!!.getReference("Staff").child(user!!.uid)
-//                                //                                        Staff  st = new Staff(sEmail,sName,sPass,IsAdmin,sStatus);
-////                                        updateUserInfo(sName,imageUri,fAuth.getCurrentUser());
-//                                val mStorage = FirebaseStorage.getInstance().reference.child("staff_photos")
-//                                val imageFilePath = mStorage.child(imageUri!!.lastPathSegment!!)
-//                                imageFilePath.putFile(imageUri!!).addOnSuccessListener {
-//                                    imageFilePath.downloadUrl.addOnSuccessListener { uri ->
-//                                        val profileUpdate = UserProfileChangeRequest.Builder()
-//                                                .setDisplayName(sName)
-//                                                .setPhotoUri(uri)
-//                                                .build()
-//                                        ff = uri.toString()
-//                                        user.updateProfile(profileUpdate)
-//                                                .addOnCompleteListener { task ->
-//                                                    //user info update success
-//                                                    if (task.isSuccessful) {
-//                                                        fAuth!!.currentUser!!.sendEmailVerification().addOnCompleteListener { task ->
-//                                                            if (task.isSuccessful) {
-//                                                                val staffInfo: MutableMap<String, Any> = HashMap()
-//                                                                staffInfo["StaffEmail"] = sEmail
-//                                                                staffInfo["StaffName"] = sName
-//                                                                //                                                                                        staffInfo.put("StaffPassword", sPass);
-//                                                                staffInfo["StaffStatus"] = sStatus
-//                                                                staffInfo["IsAdmin"] = IsAdmin
-//                                                                staffInfo["ProfileImage"] = ff!!
-//                                                                staffInfo["StaffId"] = id
-//                                                                reference!!.setValue(staffInfo)
-//                                                                Toast.makeText(v.context, "Register successfully ,please check email for verification", Toast.LENGTH_SHORT).show()
-//                                                            } else {
-//                                                                Toast.makeText(v.context, task.exception!!.message, Toast.LENGTH_SHORT).show()
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                }
-//                                    }
-//                                }
-//                                Email!!.setText("")
-//                                Name!!.setText("")
-//                                Pass!!.setText("")
-//                                CPass!!.setText("")
-//                            }.addOnFailureListener { Toast.makeText(activity, "Failed to register staff account", Toast.LENGTH_SHORT).show() }
-//                        }
-//                    }
+//class MapsActivity : FragmentActivity(), OnMapReadyCallback {
+//    private var mMap: GoogleMap? = null
+//    private var databaseReference: DatabaseReference? = null
+//    private var locationListener: LocationListener? = null
+//    private var locationManager: LocationManager? = null
+//    private val MIN_TIME: Long = 1000
+//    private val MIN_DIST: Long = 5
+//    private var editTextLatitude: EditText? = null
+//    private var editTextLongitude: EditText? = null
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_maps)
+//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        val mapFragment = supportFragmentManager
+//            .findFragmentById(R.id.map) as SupportMapFragment?
+//        mapFragment!!.getMapAsync(this)
+//        ActivityCompat.requestPermissions(
+//            this,
+//            arrayOf(
+//                Manifest.permission.ACCESS_FINE_LOCATION,
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ),
+//            PackageManager.PERMISSION_GRANTED
+//        )
+//        editTextLatitude = findViewById(R.id.editText)
+//        editTextLongitude = findViewById(R.id.editText2)
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Location")
+//        databaseReference!!.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                try {
+//                    val databaseLatitudeString = dataSnapshot.child("latitude").value.toString()
+//                        .substring(1, dataSnapshot.child("latitude").value.toString().length - 1)
+//                    val databaseLongitudedeString = dataSnapshot.child("longitude").value.toString()
+//                        .substring(1, dataSnapshot.child("longitude").value.toString().length - 1)
+//                    val stringLat = databaseLatitudeString.split(", ").toTypedArray()
+//                    Arrays.sort(stringLat)
+//                    val latitude = stringLat[stringLat.size - 1].split("=").toTypedArray()[1]
+//                    val stringLong = databaseLongitudedeString.split(", ").toTypedArray()
+//                    Arrays.sort(stringLong)
+//                    val longitude = stringLong[stringLong.size - 1].split("=").toTypedArray()[1]
+//                    val latLng = LatLng(latitude.toDouble(), longitude.toDouble())
+//                    mMap!!.addMarker(
+//                        MarkerOptions().position(latLng).title("$latitude , $longitude")
+//                    )
+//                    mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
 //                }
-//                builderR.setNegativeButton("No") { dialog, which -> }
-//                val dialogR = builderR.create()
-//                dialogR.show()
 //            }
-//            R.id.btnClear -> {
-//                val builder = AlertDialog.Builder(activity!!)
-//                builder.setTitle("Clear")
-//                builder.setMessage("Are you sure want to clear?")
-//                builder.setPositiveButton("Yes") { dialog, which ->
-//                    Email!!.setText("")
-//                    Name!!.setText("")
-//                    Pass!!.setText("")
-//                    CPass!!.setText("")
+//
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
+//    }
+//
+//    /**
+//     * Manipulates the map once available.
+//     * This callback is triggered when the map is ready to be used.
+//     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+//     * we just add a marker near Sydney, Australia.
+//     * If Google Play services is not installed on the device, the user will be prompted to install
+//     * it inside the SupportMapFragment. This method will only be triggered once the user has
+//     * installed Google Play services and returned to the app.
+//     */
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        mMap = googleMap
+//
+////        // Add a marker in Sydney and move the camera
+////        LatLng sydney = new LatLng(-34, 151);
+////        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        locationListener = object : LocationListener {
+//            override fun onLocationChanged(location: Location) {
+//                try {
+//                    editTextLatitude!!.setText(java.lang.Double.toString(location.latitude))
+//                    editTextLongitude!!.setText(java.lang.Double.toString(location.longitude))
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
 //                }
-//                builder.setNegativeButton("No") { dialog, which -> }
-//                val dialog = builder.create()
-//                dialog.show()
 //            }
+//
+//            override fun onStatusChanged(s: String, i: Int, bundle: Bundle) {}
+//            override fun onProviderEnabled(s: String) {}
+//            override fun onProviderDisabled(s: String) {}
+//        }
+//        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // TODO: Consider calling
+//            //    Activity#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for Activity#requestPermissions for more details.
+//            return
+//        }
+//        try {
+//            locationManager!!.requestLocationUpdates(
+//                LocationManager.NETWORK_PROVIDER,
+//                MIN_TIME,
+//                MIN_DIST.toFloat(),
+//                locationListener
+//            )
+//            locationManager!!.requestLocationUpdates(
+//                LocationManager.GPS_PROVIDER,
+//                MIN_TIME,
+//                MIN_DIST.toFloat(),
+//                locationListener
+//            )
+//        } catch (e: Exception) {
+//            e.printStackTrace()
 //        }
 //    }
 //
-//    private fun check(textField: EditText?): Boolean {
-//        if (textField!!.text.toString().isEmpty()) {
-//            textField.error = "Do not leave empty"
-//            valid = false
-//        } else {
-//            valid = true
-//        }
-//        return valid
+//    fun updateButtonOnclick(view: View?) {
+//        databaseReference!!.child("latitude").push().setValue(editTextLatitude!!.text.toString())
+//        databaseReference!!.child("longitude").push().setValue(editTextLongitude!!.text.toString())
 //    }
-//
-//    companion object {
-//        private const val PICK_IMAGE = 1
-//    }
-//
-//
+//}
