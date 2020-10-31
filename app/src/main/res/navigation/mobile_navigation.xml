@@ -27,9 +27,8 @@
             android:id="@+id/action_home_to_logout"
             app:destination="@id/logout" />
         <action
-            android:id="@+id/action_home_to_map"
-            app:destination="@id/map"
-            app:popUpTo="@id/home" />
+            android:id="@+id/action_home_to_location"
+            app:destination="@id/location" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -50,6 +49,9 @@
         <action
             android:id="@+id/action_login_to_home"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/action_login_to_forgetpassword"
+            app:destination="@id/forgetpassword" />
     </fragment>
     <fragment
         android:id="@+id/register"

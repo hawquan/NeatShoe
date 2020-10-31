@@ -2,6 +2,7 @@ package com.example.neatshoe
 
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
@@ -22,6 +23,7 @@ import android.widget.*
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class MainActivity : AppCompatActivity() {
 

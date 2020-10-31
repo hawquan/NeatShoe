@@ -18,16 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Register.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Register : Fragment() {
     // TODO: Rename and change types of parameters
     class User(val name: String, val email: String, val password: String, val address: String, val phone: String, val point: Int, val image: String)
@@ -36,42 +27,61 @@ class Register : Fragment() {
     lateinit var editEmail: EditText
     lateinit var editPassword: EditText
     lateinit var btnRegister: Button
+    lateinit var btnLogRegister: Button
     private lateinit var mAuth: FirebaseAuth
+    lateinit var thisview: View
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        editName = requireActivity().findViewById(R.id.txtName)
-        editEmail = requireActivity().findViewById(R.id.txtEmail)
-        editPassword = requireActivity().findViewById(R.id.txtPassword)
-        btnRegister = requireActivity().findViewById(R.id.btLogin)
-
-
-
-
-        btnRegister.setOnClickListener {
-            register()
-        }
-    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        thisview=inflater.inflate(R.layout.fragment_register, container, false)
         // Inflate the layout for this fragment
         mAuth = FirebaseAuth.getInstance();
-        val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater,
+        btnLogRegister= thisview.findViewById(R.id.btnLogRegister1)
+        editName = thisview.findViewById(R.id.txtName)
+        editEmail = thisview.findViewById(R.id.txtEmail)
+        editPassword = thisview.findViewById(R.id.txtPassword)
+        btnRegister = thisview.findViewById(R.id.btLogin)
+        /*val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(inflater,
             R.layout.fragment_register,container,false)
         binding.btnLogRegister1.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_register_to_login)
         }
-
-        return binding.root
-        //return inflater.inflate(R.layout.fragment_register, container, false)
+        return binding.root*/
+        btnRegister.setOnClickListener {
+            register()
+        }
+        btnLogRegister.setOnClickListener {view : View ->
+            view.findNavController().navigate(R.id.action_register_to_login)
+        }
+        return thisview
 
 
     }
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        editName = requireActivity().findViewById(R.id.txtName)
+        editEmail = requireActivity().findViewById(R.id.txtEmail)
+        editPassword = requireActivity().findViewById(R.id.txtPassword)
+        btnRegister = requireActivity().findViewById(R.id.btLogin)
+        btnLogRegister= requireActivity().findViewById(R.id.btnLogRegister1)
+
+
+        btnRegister.setOnClickListener {
+            register()
+        }
+
+        btnLogRegister.setOnClickListener {
+             requireView().findNavController().navigate(R.id.action_register_to_login)
+        }
+
+
+
+    }*/
     override fun onStart() {
         super.onStart()
 
@@ -123,7 +133,8 @@ class Register : Fragment() {
                                     if(task.isSuccessful){
                                         Toast.makeText(activity,"Register Successfully", Toast.LENGTH_LONG).show()
 
-                                        view!!.findNavController().navigate(R.id.action_register_to_login)
+                                        //view!!.findNavController().navigate(R.id.action_register_to_login)
+                                        requireView().findNavController().navigate(R.id.action_register_to_login)
                                     }
                                     else{
                                         //display a failure message
