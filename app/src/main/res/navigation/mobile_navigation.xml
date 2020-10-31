@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/home">
+    app:startDestination="@id/home">
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.neatshoe.MainActivity"
@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_login_to_home"
             app:destination="@id/home" />
+        <action
+            android:id="@+id/action_login_to_forgetpassword"
+            app:destination="@id/forgetpassword" />
     </fragment>
     <fragment
         android:id="@+id/register"
@@ -79,4 +82,9 @@
             android:id="@+id/action_location_to_home"
             app:destination="@id/home" />
     </fragment>
+    <fragment
+        android:id="@+id/forgetpassword"
+        android:name="com.example.neatshoe.forgetpassword"
+        android:label="fragment_forgetpassword"
+        tools:layout="@layout/fragment_forgetpassword" />
 </navigation>
