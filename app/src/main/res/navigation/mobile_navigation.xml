@@ -27,8 +27,8 @@
             android:id="@+id/action_home_to_logout"
             app:destination="@id/logout" />
         <action
-            android:id="@+id/action_home_to_location"
-            app:destination="@id/location" />
+            android:id="@+id/action_home_to_map"
+            app:destination="@id/map" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -77,4 +77,9 @@
         android:id="@+id/map"
         android:name="com.example.neatshoe.Map"
         android:label="Map" />
+    <fragment
+        android:id="@+id/forgetpassword"
+        android:name="com.example.neatshoe.forgetpassword"
+        android:label="fragment_forgetpassword"
+        tools:layout="@layout/fragment_forgetpassword" />
 </navigation>

@@ -2,36 +2,27 @@ package com.example.neatshoe
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.github.florent37.runtimepermission.kotlin.askPermission
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
-import com.google.android.gms.location.places.ui.PlacePicker
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.IOException
 import java.lang.IndexOutOfBoundsException
 import java.util.*
@@ -191,6 +182,18 @@ GoogleMap.OnCameraMoveListener,GoogleMap.OnCameraMoveStartedListener, GoogleMap.
             }
         }
     }
+
+//    override fun onStatusChanged(p0: String?, p1: Int, p2:Bundle?){
+//
+//    }
+//
+//    override fun onProviderEnabled(provider: String) {
+//
+//    }
+//
+//    override fun onProviderDisabled(provider: String) {
+//
+//    }
 
     override fun onCameraMove() {
 
