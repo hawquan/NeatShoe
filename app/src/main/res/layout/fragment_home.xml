@@ -51,6 +51,17 @@
         android:layout_height="wrap_content"
         android:text="Register" />
 
+    <EditText
+        android:id="@+id/txtLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AddressFromMap"/>
+    <Button
+        android:id="@+id/btLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location" />
+
 
 </LinearLayout>
 </layout>

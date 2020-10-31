@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_home_to_logout"
             app:destination="@id/logout" />
+        <action
+            android:id="@+id/action_home_to_location"
+            app:destination="@id/location" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -66,5 +69,14 @@
         <action
             android:id="@+id/action_logout_to_login"
             app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/location"
+        android:name="com.example.neatshoe.Location"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_location_to_home"
+            app:destination="@id/home" />
     </fragment>
 </navigation>
