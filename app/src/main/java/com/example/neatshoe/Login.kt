@@ -57,17 +57,7 @@ class Login : Fragment() {
             view.findNavController().navigate(R.id.action_login_to_forgetpassword)
 
         }
-        /*forgetPassword.setOnClickListener {
-            val builder =AlertDialog.Builder(requireActivity())
-            builder.setTitle("Forget Password")
-            val view =layoutInflater.inflate(R.layout.dialog_forgetpassword,null)
-            val userEmail=view.findViewById<EditText>(R.id.et_email)
-            builder.setView(view)
-            builder.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
-                forgetPassword(userEmail)
-            })
-            builder.setNegativeButton("Close", DialogInterface.OnClickListener { _, _ ->  })
-        }*/
+
         btnLogin.setOnClickListener() {
 
             val useremail = editEmail.text.toString().trim()
@@ -80,19 +70,7 @@ class Login : Fragment() {
 
 
     }
-    private fun forgetPassword(userEmail:EditText){
-         if(userEmail.text.toString().isEmpty()){
-             return
-         }
 
-        mAuth.sendPasswordResetEmail(userEmail.text.toString())
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(requireActivity(), "Email sent", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-    }
 
     private fun LoginWithAuth(email: String, password: String) {
         if (email.isEmpty() && password.isEmpty()) {
