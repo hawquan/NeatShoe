@@ -29,4 +29,9 @@
     <string name="save_profile">Save Profile</string>
     <string name="point">Point</string>
     <string name="points">10000</string>
+    <string name="latitude">Latitude</string>
+    <string name="longtitude">Longtitude</string>
+    <string name="update">Update</string>
+    <string name="title_activity_location">Map</string>
+    <string name="longitude">longtitude</string>
 </resources>
