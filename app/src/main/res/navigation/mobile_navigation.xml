@@ -16,7 +16,8 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_profile"
-            app:destination="@id/profile" />
+            app:destination="@id/profile"
+ />
         <action
             android:id="@+id/action_home_to_login"
             app:destination="@id/login" />
@@ -37,7 +38,8 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profile_to_home"
-            app:destination="@id/home" />
+            app:destination="@id/home"
+  />
     </fragment>
     <fragment
         android:id="@+id/login"
