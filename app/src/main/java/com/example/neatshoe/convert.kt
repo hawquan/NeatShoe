@@ -1,74 +1,66 @@
+//package com.students.ameer.placepikerapp
 //
-//package com.example.myyoutubelocationapp;
+//import android.R
+//import android.content.Intent
+//import android.net.wifi.WifiManager
+//import android.os.Bundle
+//import android.util.Log
+//import android.view.View
+//import android.widget.Button
+//import android.widget.TextView
+//import androidx.appcompat.app.AppCompatActivity
+//import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+//import com.google.android.gms.common.GooglePlayServicesRepairableException
+//import com.google.android.gms.location.places.ui.PlacePicker
 //
-//public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-//
-//    private GoogleMap mMap;
-//
-//    private LocationManager locationManager;
-//    private LocationListener locationListener;
-//
-//    private final long MIN_TIME = 1000;
-//    private final long MIN_DIST = 5;
-//
-//    private LatLng latLng;
-//
-//    private TextView textView;
-//    private EditText editTextLat;
-//    private EditText editTextLong;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_maps);
-//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//            .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//
-//        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, PackageManager.PERMISSION_GRANTED);
-//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, PackageManager.PERMISSION_GRANTED);
-//
-//        textView = findViewById(R.id.textView);
-//        editTextLat = findViewById(R.id.editTextLat);
-//        editTextLong = findViewById(R.id.editTextong);
-//
-//        latLng = new LatLng(-34, 151);
+//class MainActivity : AppCompatActivity() {
+//    var btn_PickLocation: Button? = null
+//    var tv_MyLocation: TextView? = null
+//    var wifiManager: WifiManager? = null
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_main)
+//        btn_PickLocation = findViewById<View>(R.id.BtnPickLocation) as Button
+//        tv_MyLocation = findViewById<View>(R.id.MyLocation) as TextView
+//        wifiManager = this.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+//        btn_PickLocation!!.setOnClickListener { //Disable Wifi
+//            wifiManager!!.isWifiEnabled = false
+//            openPlacePicker()
+//        }
 //    }
 //
-//    public void getLocationDetails(View view){
-//        double latitude = latLng.latitude;
-//        double longitude = latLng.longitude;
-//        if (!(editTextLong.getText().toString().isEmpty() || editTextLat.getText().toString().isEmpty()))
-//        {
-//            latitude = Double.parseDouble(editTextLat.getText().toString());
-//            longitude = Double.parseDouble(editTextLong.getText().toString());
-//            latLng = new LatLng(latitude, longitude);
-//        }
-//        Geocoder geocoder;
-//        List(Address) addresses;
-//        geocoder = new Geocoder(this, Locale.getDefault());
-//
-//        String address = null;
-//        String city = null;
-//        String state = null;
-//        String country = null;
-//        String postalCode = null;
-//        String knonName = null;
+//    private fun openPlacePicker() {
+//        val builder = PlacePicker.IntentBuilder()
 //        try {
-//            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-//            address = addresses.get(0).getAddressLine(0);
-//            city = addresses.get(0).getLocality();
-//            state = addresses.get(0).getAdminArea();
-//            country = addresses.get(0).getCountryName();
-//            postalCode = addresses.get(0).getPostalCode();
-//            knonName = addresses.get(0).getFeatureName();
-//        } catch (IOException e) {
-//            e.printStackTrace();
+//            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
+//
+//            //Enable Wifi
+//            wifiManager!!.isWifiEnabled = true
+//        } catch (e: GooglePlayServicesRepairableException) {
+//            Log.d("Exception", e.message!!)
+//            e.printStackTrace()
+//        } catch (e: GooglePlayServicesNotAvailableException) {
+//            Log.d("Exception", e.message!!)
+//            e.printStackTrace()
 //        }
-//        mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in : " + address + city + state + country + postalCode + knonName));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//        textView.setText(address + city + state + country + postalCode + knonName);
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == RESULT_OK) {
+//            when (requestCode) {
+//                PLACE_PICKER_REQUEST -> {
+//                    val place = PlacePicker.getPlace(this@Map, data)
+//                    val latitude = place.latLng.latitude
+//                    val longitude = place.latLng.longitude
+//                    val PlaceLatLng = "$latitude , $longitude"
+//                    tv_MyLocation!!.text = PlaceLatLng
+//                }
+//            }
+//        }
+//    }
+//
+//    companion object {
+//        private const val PLACE_PICKER_REQUEST = 999
 //    }
 //}

@@ -1,222 +1,111 @@
 package com.example.neatshoe
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.pm.PackageManager
+
+import android.content.Context
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
-import android.location.LocationListener
-import androidx.appcompat.app.AppCompatActivity
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import com.github.florent37.runtimepermission.kotlin.askPermission
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import java.io.IOException
-import java.lang.IndexOutOfBoundsException
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_map.*
 import java.util.*
 
-class Map : AppCompatActivity(), OnMapReadyCallback, LocationListener,
-GoogleMap.OnCameraMoveListener,GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener{
-    private var mMap: GoogleMap? = null
-    lateinit var mapView: MapView
-    private val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
-    private val DEFAULT_ZOOM = 15f
-    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    lateinit var tvCurrentAddress: TextView
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mapView.onResume()
-        mMap = googleMap
+class Map : AppCompatActivity() {
+    var btn_PickLocation: Button? = null
+    var btn_Save: Button? = null
+    var tv_MyLatitude: TextView? = null
+    var tv_MyLongitude: TextView? = null
+    var tv_MyAddress: TextView? = null
+    lateinit var databaseReference: DatabaseReference
 
-        askPermissionLocation()
-
-        if(ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ){
-            return
-        }
-        mMap!!.setMyLocationEnabled(true)
-        mMap!!.setOnCameraMoveListener(this)
-        mMap!!.setOnCameraMoveStartedListener(this)
-        mMap!!.setOnCameraIdleListener(this)
-    }
+    private val PLACE_PICKER_REQUEST = 999
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        btn_PickLocation = findViewById<View>(R.id.BtnPickLocation) as Button
+        btn_Save = findViewById<View>(R.id.BtSaveAddress) as Button
+        tv_MyLatitude = findViewById<View>(R.id.MyLatitude) as TextView
+        tv_MyLongitude = findViewById<View>(R.id.MyLongitude) as TextView
+        tv_MyAddress = findViewById<View>(R.id.MyAddress) as TextView
 
-        mapView = findViewById<MapView>(R.id.map1)
-
-        tvCurrentAddress = findViewById<TextView>(R.id.tvAddress)
-        askPermissionLocation()
-
-        var mapViewBundle: Bundle? = null
-        if(savedInstanceState != null){
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
+        btn_PickLocation!!.setOnClickListener { //Disable Wifi
+            openPlacePicker()
         }
 
-        mapView.onCreate(mapViewBundle)
-        mapView.getMapAsync(this)
-    }
-
-    public override fun onSaveInstanceState(outState: Bundle){
-        super.onSaveInstanceState(outState)
-
-        askPermissionLocation()
-        var mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY)
-        if(mapViewBundle == null){
-            mapViewBundle = Bundle()
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle)
+        btn_Save!!.setOnClickListener(){
+            UploadToDatabase()
         }
 
-        mapView.onSaveInstanceState(mapViewBundle)
     }
 
-    private fun askPermissionLocation(){
-        askPermission(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ){
-            getCurrentLocation()
-        }.onDeclined { e ->
-            if(e.hasDenied()) {
-                e.denied.forEach {
-                }
 
-                AlertDialog.Builder(this)
-                    .setMessage("Permission Denied, Unable to Continue")
-                    .setPositiveButton("yes"){ _, _ ->
-                        e.askAgain()
-                    } // ask again
-                    .setNegativeButton("no") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
-            }
+    private fun openPlacePicker() {
+        val builder = PlacePicker.IntentBuilder()
+        try {
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
 
-            if (e.hasForeverDenied()){
-                //the list of forever denied permission, user has check 'never ask again'
-                e.foreverDenied.forEach{
-
-                }
-                //User have to do it manually by going to setting
-                e.goToSettings()
-            }
-        }
-    }
-    private fun getCurrentLocation(){
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(this@Map)
-
-        try{
-            @SuppressLint("MissingPermission")
-            val location =
-                fusedLocationProviderClient!!.getLastLocation()
-
-            location.addOnCompleteListener(object : OnCompleteListener<Location> {
-                override fun onComplete(log: Task<Location>){
-                    if(log.isSuccessful){
-                        val currentLocation = log.result as Location?
-                        if(currentLocation != null){
-                            moveCamera(
-                                LatLng(currentLocation.latitude, currentLocation.longitude),
-                                DEFAULT_ZOOM
-                            )
-                        }
-                    } else {
-                        askPermissionLocation()
-                    }
-                }
-            })
-        } catch (se: Exception){
-            Log.e("TAG", "Security Exception")
-        }
-
-
-    }
-
-    private fun moveCamera(latLng: LatLng, zoom: Float) {
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom))
-    }
-
-    override fun onLocationChanged(location: Location) {
-        val geocoder = Geocoder(this, Locale.getDefault())
-        var addresses: List<Address>? = null
-        try{
-            addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-
-        } catch (e: IOException){
+        } catch (e: GooglePlayServicesRepairableException) {
+            Log.d("Exception", e.message!!)
             e.printStackTrace()
-        }
-
-        setAddress(addresses!![0])
-    }
-
-    private fun setAddress(addresses: Address){
-        if( addresses != null){
-
-            if(addresses.getAddressLine(0) != null){
-                tvCurrentAddress!!.setText(addresses.getAddressLine(0))
-            }
-            if(addresses.getAddressLine(1) != null){
-                tvCurrentAddress!!.setText(
-                    tvCurrentAddress.getText().toString() + addresses.getAddressLine(1)
-                )
-            }
-        }
-    }
-
-//    override fun onStatusChanged(p0: String?, p1: Int, p2:Bundle?){
-//
-//    }
-//
-//    override fun onProviderEnabled(provider: String) {
-//
-//    }
-//
-//    override fun onProviderDisabled(provider: String) {
-//
-//    }
-
-    override fun onCameraMove() {
-
-    }
-
-    override fun onCameraMoveStarted(p0: Int) {
-
-    }
-
-    override fun onCameraIdle() {
-        var addresses: List<Address>? = null
-        val geocoder = Geocoder(this, Locale.getDefault())
-        try{
-
-            addresses = geocoder.getFromLocation( mMap!!.getCameraPosition().target.latitude,
-                mMap!!.getCameraPosition().target.longitude, 1)
-
-            setAddress(addresses!![0])
-        } catch (e: IndexOutOfBoundsException){
-            e.printStackTrace()
-        }catch (e: IOException){
+        } catch (e: GooglePlayServicesNotAvailableException) {
+            Log.d("Exception", e.message!!)
             e.printStackTrace()
         }
     }
+
+    private fun UploadToDatabase(){
+        val uid = FirebaseAuth.getInstance().uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("/Users/$uid")
+
+        val address = tv_MyAddress?.text.toString().trim()
+        val latitude = tv_MyLatitude?.text.toString().trim()
+        val longitude = tv_MyLongitude?.text.toString().trim()
+
+        databaseReference.child("address").setValue(address)
+        databaseReference.child("latitude").setValue(latitude)
+        databaseReference.child("longitude").setValue(longitude)
+
+        Toast.makeText(this, "Save Successfully", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                PLACE_PICKER_REQUEST -> {
+                    val place = PlacePicker.getPlace(this@Map, data)
+                    val latitude = place.latLng.latitude
+                    val longitude = place.latLng.longitude
+                    MyLatitude!!.text = "$latitude"
+                    MyLongitude!!.text = "$longitude"
+
+                    val geocoder: Geocoder
+                    val addresses: List<Address>
+                    geocoder = Geocoder(this, Locale.getDefault())
+
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1)
+
+                    val address = addresses[0].getAddressLine(0)
+                    tv_MyAddress!!.text = address
+                }
+            }
+        }
+    }
+
 
 }
