@@ -9,6 +9,9 @@ android {
     buildFeatures {
         dataBinding true
     }
+    viewBinding {
+        enabled=true
+    }
     defaultConfig {
         applicationId "com.example.neatshoe"
         minSdkVersion 26
@@ -81,6 +84,20 @@ dependencies {
 
     //Authorize Permission
     implementation 'com.github.florent37:runtime-permission-kotlin:1.1.2'
+
+    //Recycler View (including List adapter)
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    //Material Library (for Fab and other material stuff)
+    implementation 'com.google.android.material:material:1.1.0'
+
+    // ViewModel & Livedata
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    //Glide Library
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
 
 apply plugin: 'kotlin-android-extensions'

@@ -11,7 +11,6 @@ import android.view.*
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.neatshoe.databinding.FragmentHomeBinding
 import com.google.android.material.navigation.NavigationView
@@ -69,6 +68,9 @@ class Home : Fragment() {
 
         binding.btLocation2.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_map)
+        }
+        binding.btProduct.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_home_to_shopFragment)
         }
 
         return binding.root

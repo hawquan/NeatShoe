@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_home_to_map"
             app:destination="@id/map" />
+        <action
+            android:id="@+id/action_home_to_shopFragment"
+            app:destination="@id/shopFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -84,4 +87,52 @@
         android:name="com.example.neatshoe.forgetpassword"
         android:label="fragment_forgetpassword"
         tools:layout="@layout/fragment_forgetpassword" />
+    <activity
+        android:id="@+id/productMain"
+        android:name="com.example.neatshoe.ProductMain"
+        android:label="activity_product_main"
+        tools:layout="@layout/activity_product_main" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.example.neatshoe.ShopFragment"
+        android:label="fragment_shop"
+        tools:layout="@layout/fragment_shop" >
+        <action
+            android:id="@+id/action_shopFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_shopFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderFragment"
+        android:name="com.example.neatshoe.OrderFragment"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" >
+        <action
+            android:id="@+id/action_orderFragment_to_shopFragment"
+            app:destination="@id/shopFragment"
+            app:popUpTo="@id/shopFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.neatshoe.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.neatshoe.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_orderFragment"
+            app:destination="@id/orderFragment"
+            app:popUpTo="@id/shopFragment" />
+    </fragment>
 </navigation>
