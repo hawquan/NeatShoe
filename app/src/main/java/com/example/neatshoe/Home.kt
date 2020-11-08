@@ -33,12 +33,15 @@ class Home : Fragment() {
     lateinit var navMenu: Menu
     lateinit var user: FirebaseUser
     lateinit var navigationView: NavigationView
+    lateinit var headerview :View
+    lateinit var uid: String
 
     //Check user logged in
     override fun onStart() {
         super.onStart()
         val user = mAuth.currentUser
         if (user != null) {
+
 
         } else {
             requireView().findNavController().navigate(R.id.action_home_to_logout)
@@ -57,7 +60,7 @@ class Home : Fragment() {
             view.findNavController().navigate(R.id.action_home_to_profile)
         }
         binding.Login.setOnClickListener { view : View ->
-            view.findNavController().navigate(R.id.action_home_to_login)
+           // view.findNavController().navigate(R.id.action_home_to_login)
         }
         binding.btnRegister.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_register)
@@ -71,6 +74,9 @@ class Home : Fragment() {
         }
         binding.btProduct.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_home_to_shopFragment)
+        }
+        binding.btAdminLogin.setOnClickListener { view :View ->
+            //view.findNavController().navigate(R.id.action_home_to_adminLogin)
         }
 
         return binding.root

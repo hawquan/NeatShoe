@@ -56,6 +56,7 @@ class Map : AppCompatActivity() {
 
     private fun openPlacePicker() {
         val builder = PlacePicker.IntentBuilder()
+
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST)
 

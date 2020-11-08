@@ -49,7 +49,7 @@ class Logout : Fragment() {
 
 //        requireFragmentManager().popBackStack()
         //back to login page
-        requireView().findNavController().navigate(R.id.action_logout_to_login)
+        requireView().findNavController().navigate(R.id.action_logout_to_selectRole)
 
     }
 

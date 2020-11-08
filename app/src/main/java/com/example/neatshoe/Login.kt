@@ -1,8 +1,5 @@
 package com.example.neatshoe
 
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,16 +9,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import com.example.neatshoe.databinding.FragmentHomeBinding
-import com.example.neatshoe.databinding.FragmentLoginBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
-import kotlinx.android.synthetic.main.fragment_login.*
 import java.util.regex.Pattern
 
 

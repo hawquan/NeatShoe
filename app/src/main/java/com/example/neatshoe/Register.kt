@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.neatshoe.databinding.FragmentRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -156,6 +155,73 @@ class Register : Fragment() {
                 }
             })
     }
+    private fun Adminregister(){
+        val name = editName.text.toString().trim()
+        val email =editEmail.text.toString().trim()
+        val password = editPassword.text.toString().trim()
+        val address = ""
+        val phone = ""
+        val point = "0"
+        val image = ""
+
+        if(name.isEmpty() && email.isEmpty() && password.isEmpty() ) {
+            editName.error = "Please enter a name"
+            editEmail.error = "Please enter an email"
+            editPassword.error = "Please enter a password"
+            return
+        }
+        if(name.isEmpty()){
+            editName.error = "Please enter a name"
+            return
+        }
+
+        if(email.isEmpty()){
+            editEmail.error = "Please enter an email"
+            return
+        }
+        if(password.isEmpty()){
+            editPassword.error = "Please enter a password"
+            return
+        }
+        mAuth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener(object: OnCompleteListener<AuthResult> {
+                override fun onComplete(task: Task<AuthResult>) {
+
+                    if(task.isSuccessful) {
+                        //store additional fields in firebase database
+
+                        var user : User = User(name,email,password,address,phone,point.toInt(),image)
+                        FirebaseDatabase.getInstance().getReference("Admin")
+                            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                            .setValue(user).addOnCompleteListener(object: OnCompleteListener<Void> {
+                                override fun onComplete(task: Task<Void>){
+                                    if(task.isSuccessful){
+                                        Toast.makeText(activity,"Register Successfully", Toast.LENGTH_LONG).show()
+
+                                        //view!!.findNavController().navigate(R.id.action_register_to_login)
+                                        requireView().findNavController().navigate(R.id.action_register_to_login)
+                                    }
+                                    else{
+                                        //display a failure message
+                                        if(task.exception is FirebaseAuthUserCollisionException){
+                                            Toast.makeText(activity, "You are already registered", Toast.LENGTH_SHORT).show()
+                                        }else{
+                                            Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                                        }
+
+
+                                    }
+
+                                }
+
+                            })
+                    }else{
+                        Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
+    }
+
 
 
 }

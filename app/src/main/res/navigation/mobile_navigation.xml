@@ -19,9 +19,6 @@
             app:destination="@id/profile"
  />
         <action
-            android:id="@+id/action_home_to_login"
-            app:destination="@id/login" />
-        <action
             android:id="@+id/action_home_to_register"
             app:destination="@id/register" />
         <action
@@ -75,8 +72,8 @@
         android:label="fragment_logout"
         tools:layout="@layout/fragment_logout" >
         <action
-            android:id="@+id/action_logout_to_login"
-            app:destination="@id/login" />
+            android:id="@+id/action_logout_to_selectRole"
+            app:destination="@id/selectRole" />
     </fragment>
     <activity
         android:id="@+id/map"
@@ -134,5 +131,35 @@
             android:id="@+id/action_cartFragment_to_orderFragment"
             app:destination="@id/orderFragment"
             app:popUpTo="@id/shopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminLogin"
+        android:name="com.example.neatshoe.AdminLogin"
+        android:label="fragment_admin_login"
+        tools:layout="@layout/fragment_admin_login" >
+        <action
+            android:id="@+id/action_adminLogin_to_adminHomePage"
+            app:destination="@id/adminHomePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminHomePage"
+        android:name="com.example.neatshoe.AdminHomePage"
+        android:label="fragment_admin_home_page"
+        tools:layout="@layout/fragment_admin_home_page" >
+        <action
+            android:id="@+id/action_adminHomePage_to_selectRole"
+            app:destination="@id/selectRole" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectRole"
+        android:name="com.example.neatshoe.SelectRole"
+        android:label="fragment_select_role"
+        tools:layout="@layout/fragment_select_role" >
+        <action
+            android:id="@+id/action_selectRole_to_adminLogin"
+            app:destination="@id/adminLogin" />
+        <action
+            android:id="@+id/action_selectRole_to_login"
+            app:destination="@id/login" />
     </fragment>
 </navigation>
