@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_home_to_shopFragment"
             app:destination="@id/shopFragment" />
+        <action
+            android:id="@+id/action_home_to_pickup"
+            app:destination="@id/pickup" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -162,4 +165,9 @@
             android:id="@+id/action_selectRole_to_login"
             app:destination="@id/login" />
     </fragment>
+    <activity
+        android:id="@+id/pickup"
+        android:name="com.example.neatshoe.Pickup"
+        android:label="Pickup"
+        tools:layout="@layout/activity_pickup" />
 </navigation>

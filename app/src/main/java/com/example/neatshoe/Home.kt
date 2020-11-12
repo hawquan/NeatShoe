@@ -76,7 +76,7 @@ class Home : Fragment() {
             view.findNavController().navigate(R.id.action_home_to_shopFragment)
         }
         binding.btAdminLogin.setOnClickListener { view :View ->
-            //view.findNavController().navigate(R.id.action_home_to_adminLogin)
+            view.findNavController().navigate(R.id.action_home_to_pickup)
         }
 
         return binding.root
